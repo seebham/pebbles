@@ -1,12 +1,10 @@
 import { Button, Container, CssBaseline, Paper } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/system";
+import MainContent from "./components/mainContent";
 import { useAppSelector } from "./store/store";
 
 function App() {
-  const todos = useAppSelector((state) => state.todo);
-  const categories = useAppSelector((state) => state.categories);
-  console.log(todos, categories);
   return (
     <div className="App">
       <Box
@@ -19,6 +17,7 @@ function App() {
         <CssBaseline />
         <Container component="main" sx={{ mt: 2 }} maxWidth="lg">
           <Button>Hey!</Button>
+          <MainContent />
         </Container>
       </Box>
     </div>

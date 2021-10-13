@@ -1,10 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import todoReducer from "./todoSlice";
-import categoriesReducer from "./categoriesSlice";
+import dataReducer from "./dataSlice";
 
 const store = configureStore({
-  reducer: { todo: todoReducer, categories: categoriesReducer },
+  reducer: { data: dataReducer },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
