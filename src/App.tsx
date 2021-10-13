@@ -1,4 +1,6 @@
-import { Button } from "@mui/material";
+import { Button, Container, CssBaseline, Paper } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Box } from "@mui/system";
 import { useAppSelector } from "./store/store";
 
 function App() {
@@ -6,9 +8,34 @@ function App() {
   console.log(todos);
   return (
     <div className="App">
-      <Button>Hey!</Button>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        }}
+      >
+        <CssBaseline />
+        <Container component="main" maxWidth="lg">
+          <Button>Hey!</Button>
+        </Container>
+      </Box>
     </div>
   );
 }
 
-export default App;
+const WrappedApp = () => {
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
+
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <App />
+    </ThemeProvider>
+  );
+};
+
+export default WrappedApp;
