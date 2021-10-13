@@ -185,6 +185,7 @@ export const {
   editCategory,
   removeCategory,
   addItem,
+  editItem,
   changeIsDone,
   removeItem,
 } = categoriesSlice.actions;
