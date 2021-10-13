@@ -1,18 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // state: Array of Obj - Obj:  { id: 197, title: "Post on LinkedIn", desc: "description", status: "", isDone: false, created_at: "2020-07-20T14:00:00.000Z", updated_at: "2020-07-20T14:00:00.000Z", due_date: "2020-07-20T14:00:00.000Z" }
-export interface TodoState {
-  id: number;
-  title: string;
-  desc: string;
-  status: string;
-  isDone: boolean;
-  created_at: Date;
-  updated_at: Date;
-  due_date: Date;
+declare global {
+  export interface TodoItemType {
+    id: number;
+    category: string;
+    title: string;
+    desc: string;
+    status: string;
+    isDone: boolean;
+    created_at: Date;
+    updated_at: Date;
+    due_date: Date;
+  }
 }
 
-const initialState: Array<TodoState> = [];
+const initialState: Array<TodoItemType> = [];
 
 export const todoSlice = createSlice({
   name: "todo",
@@ -21,12 +24,13 @@ export const todoSlice = createSlice({
     addTodo: (
       state,
       action: {
-        payload: TodoState;
+        payload: TodoItemType;
       }
     ) => {
-      // payload will be { title, desc, status, due_date }
+      // payload will be { category, title, desc, status, due_date }
       let newItem = {
         id: new Date().getUTCMilliseconds(),
+        category: action.payload.category,
         title: action.payload.title,
         desc: action.payload.desc,
         status: action.payload.status,
@@ -40,7 +44,7 @@ export const todoSlice = createSlice({
     editTodo: (
       state,
       action: {
-        payload: TodoState;
+        payload: TodoItemType;
       }
     ) => {
       // payload will be obj: { all properties of todo item }

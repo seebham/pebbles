@@ -5,7 +5,8 @@ import { useAppSelector } from "./store/store";
 
 function App() {
   const todos = useAppSelector((state) => state.todo);
-  console.log(todos);
+  const categories = useAppSelector((state) => state.categories);
+  console.log(todos, categories);
   return (
     <div className="App">
       <Box
@@ -16,7 +17,7 @@ function App() {
         }}
       >
         <CssBaseline />
-        <Container component="main" maxWidth="lg">
+        <Container component="main" sx={{ mt: 2 }} maxWidth="lg">
           <Button>Hey!</Button>
         </Container>
       </Box>
