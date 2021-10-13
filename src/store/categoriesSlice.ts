@@ -1,7 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 declare global {
+  interface TodoItemType {
+    id: number;
+    category: string;
+    title: string;
+    desc: string;
+    status: string;
+    isDone: boolean;
+    created_at: Date;
+    updated_at: Date;
+    due_date: Date;
+  }
   interface CategoriesType {
+    id: number;
     name: string;
     items: object[];
   }
@@ -42,14 +54,50 @@ const categoriesSlice = createSlice({
     },
     addItem: (
       state,
-      action: { payload: { categoryName: string; item: object } }
+      action: { payload: { categoryName: string; item: TodoItemType } }
     ) => {
+      let newItem = {
+        id: new Date().getUTCMilliseconds(),
+        category: action.payload.item.category,
+        title: action.payload.item.title,
+        desc: action.payload.item.desc,
+        status: action.payload.item.status,
+        isDone: false,
+        created_at: new Date(),
+        updated_at: new Date(),
+        due_date: action.payload.item.due_date,
+      };
       state
         .findIndex(
           (c: CategoriesType) => c.name === action.payload.categoryName
         )
-        .items.push(action.payload.item);
+        .items.push(newItem);
     },
+    editItem: (state, action: { payload: { item: TodoItemType } }) => {
+      const itemIndex = state
+        .find((c: CategoriesType) => c.name === action.payload.item.category)
+        .items.findIndex((i: TodoItemType) => i.id === action.payload.item.id);
+      state.find(
+        (c: CategoriesType) => c.name === action.payload.item.category
+      ).items[itemIndex] = { ...action.payload.item, updated_at: new Date() };
+    },
+    changeIsDone: (
+      state,
+      action: { payload: { category: string; itemID: number } }
+    ) => {
+      state
+        .find((c: CategoriesType) => c.name === action.payload.category)
+        .items.find(
+          (item: TodoItemType) => item.id === action.payload.itemID
+        ).isDone = !state
+        .find((c: CategoriesType) => c.name === action.payload.category)
+        .items.find((item: TodoItemType) => item.id === action.payload.itemID)
+        .isDone;
+    },
+    changeStatus: (
+      state,
+      action: { payload: { category: string; itemID: number } }
+    ) => {},
     removeItem: (
       state,
       action: { payload: { categoryName: string; itemID: number } }
