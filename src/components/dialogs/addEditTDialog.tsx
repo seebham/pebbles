@@ -22,12 +22,14 @@ const DialogContent = ({
   item,
   control,
   handleSubmit,
+  handleClose,
 }: {
   type: "add" | "edit";
   category: string;
   item?: TodoItemType;
   control: Control<IFormInput, object>;
   handleSubmit: UseFormHandleSubmit<IFormInput>;
+  handleClose: () => void;
 }) => {
   const dispatch = useAppDispatch();
   const onAddSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -39,6 +41,11 @@ const DialogContent = ({
       updated_at: new Date().toString(),
     };
     dispatch(addItem({ category: category, item: newItem }));
+    handleClose();
+  };
+  const onEditSubmit: SubmitHandler<IFormInput> = (data) => {
+    dispatch(editItem({ category: category, item: data }));
+    handleClose();
   };
   return (
     <form onSubmit={handleSubmit(onAddSubmit)}>
@@ -81,7 +88,11 @@ const DialogContent = ({
         <Controller
           name="due_date"
           control={control}
-          defaultValue={type === "edit" ? item && item.desc : ""}
+          defaultValue={
+            type === "edit"
+              ? item && item.due_date
+              : new Date().toISOString().slice(0, 10)
+          }
           render={({ field }) => (
             <Input
               required
@@ -128,6 +139,7 @@ const AddEditTDialog = ({
             item={item}
             control={control}
             handleSubmit={handleSubmit}
+            handleClose={handleClose}
           />
         ) : (
           <DialogContent
@@ -135,6 +147,7 @@ const AddEditTDialog = ({
             type={type}
             control={control}
             handleSubmit={handleSubmit}
+            handleClose={handleClose}
           />
         )
       }

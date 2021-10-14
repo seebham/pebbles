@@ -3,57 +3,124 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import styled from "@mui/material/styles/styled";
+import { IconButton, Typography } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Stack from "@mui/material/Stack";
+import AddEditTDialog from "./dialogs/addEditTDialog";
+
+import { useAppDispatch } from "../store/store";
+import { removeItem } from "../store/dataSlice";
 
 const ItemContainer = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
+  paddingTop: theme.spacing(1),
   width: "100%",
   backgroundColor: theme.palette.background.paper,
   border: `1px solid ${theme.palette.action.focus}`,
   transition: "border 0.3s ease-in",
   "&:hover": {
     border: `1px solid ${theme.palette.primary.dark}`,
-    cursor: "pointer",
   },
 }));
 
-const TodoItem = ({ item }: { item: TodoItemType }) => {
+const CustomTypography = styled(Typography)(({ theme }) => ({
+  ...theme.typography.body2,
+  textAlign: "left",
+}));
+
+const TodoItem = ({
+  item,
+  category,
+}: {
+  item: TodoItemType;
+  category: string;
+}) => {
+  const dispatch = useAppDispatch();
+
   const [expanded, setExpanded] = useState<boolean>(false);
+  const [triggerModel, setTriggerModel] = useState<boolean>(false);
+  const handleTriggerClose = () => {
+    setTriggerModel(false);
+  };
   return (
     <ItemContainer
       key={item.id}
       sx={{ display: "flex", flexDirection: "column" }}
-      onClick={() => setExpanded(!expanded)}
     >
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <Box
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <Typography
           sx={{
+            flexGrow: 1,
             fontWeight: "bold",
-            textTransform: "uppercase",
-            fontSize: "sm",
+            cursor: "pointer",
+            textAlign: "left",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
+          noWrap
+          onClick={() => setExpanded(!expanded)}
         >
           {item.title}
-        </Box>
+        </Typography>
+        <Stack
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          spacing={1}
+        >
+          <IconButton onClick={() => setTriggerModel(true)}>
+            <EditIcon fontSize="small" />
+          </IconButton>
+          <IconButton
+            onClick={() =>
+              dispatch(removeItem({ categoryName: category, itemID: item.id }))
+            }
+          >
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </Stack>
       </Box>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          fontSize: "sm",
         }}
       >
-        <Box>{item.desc}</Box>
+        <CustomTypography textAlign="left">{item.desc}</CustomTypography>
         {expanded ? (
-          <>
-            <Box>{item.created_at.split("(")[0]}</Box>
-            <Box>{item.updated_at.split("(")[0]}</Box>
-            <Box>{item.due_date.split("(")[0]}</Box>
-          </>
+          <Box mt={2}>
+            <CustomTypography>
+              Created: {new Date(item.created_at).toDateString()}
+            </CustomTypography>
+            <CustomTypography>
+              Last Update: {new Date(item.updated_at).toDateString()}
+            </CustomTypography>
+            <CustomTypography>
+              Due Date:{" "}
+              <span style={{ textDecoration: "underline" }}>
+                {new Date(item.due_date).toDateString()}
+              </span>
+            </CustomTypography>
+          </Box>
         ) : null}
       </Box>
-
-      {/* <Box sx={{ fontSize: "sm" }}>{item.description}</Box> */}
+      <AddEditTDialog
+        type="edit"
+        open={triggerModel}
+        handleClose={handleTriggerClose}
+        category={category}
+        item={item}
+      />
     </ItemContainer>
   );
 };

@@ -85,7 +85,7 @@ const Category = ({ name, items }: CategoriesType) => {
       >
         {items &&
           items.map((item: TodoItemType) => {
-            return <TodoItem key={item.id} item={item} />;
+            return <TodoItem key={item.id} item={item} category={name} />;
           })}
       </Stack>
     </CategoryContainer>
