@@ -35,45 +35,32 @@ const DialogContent = ({
   );
 };
 
-const AddDialogActions = ({
-  categoryName,
-}: {
-  categoryName: React.MutableRefObject<HTMLInputElement | undefined>;
-}) => {
-  const dispatch = useAppDispatch();
-  const handleCreateCategory = () => {
-    if (categoryName.current) {
-      let newCategory = categoryName.current.value;
-      dispatch(addCategory({ name: newCategory }));
-    }
-  };
-  return (
-    <Button autoFocus onClick={handleCreateCategory}>
-      Create
-    </Button>
-  );
-};
-
-const EditDialogActions = ({
+const DialogActions = ({
   type,
   categoryID,
   categoryName,
+  handleClose,
 }: {
   type: "add" | "edit";
   categoryID: string;
   categoryName: React.MutableRefObject<HTMLInputElement | undefined>;
+  handleClose: () => void;
 }) => {
   const dispatch = useAppDispatch();
   const handleCreateCategory = () => {
     if (categoryName.current) {
       let newCategory = categoryName.current.value;
+      if (newCategory.length <= 0) return;
       dispatch(addCategory({ name: newCategory }));
+      handleClose();
     }
   };
   const handleEditCategory = () => {
     if (categoryName.current) {
       let newCategory = categoryName.current.value;
+      if (newCategory.length <= 0 || newCategory === categoryID) return;
       dispatch(editCategory({ name: categoryID, newName: newCategory }));
+      handleClose();
     }
   };
 
@@ -101,17 +88,20 @@ const AddEditCDialog = ({ type, open, handleClose, categoryID }: PropsType) => {
       open={open}
       handleClose={handleClose}
       title={type === "edit" ? `Rename '${categoryID}'` : `Create new Category`}
-      dialogContent={<DialogContent type={type} inputRef={inputRef} />}
+      dialogContent={
+        <DialogContent
+          type={type}
+          inputRef={inputRef}
+          categoryID={categoryID}
+        />
+      }
       dialogActions={
-        type === "add" ? (
-          <AddDialogActions categoryName={inputRef} />
-        ) : (
-          <EditDialogActions
-            type="edit"
-            categoryID={categoryID ? categoryID : ""}
-            categoryName={inputRef}
-          />
-        )
+        <DialogActions
+          type={type}
+          categoryID={categoryID ? categoryID : ""}
+          categoryName={inputRef}
+          handleClose={handleClose}
+        />
       }
     />
   );
