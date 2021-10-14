@@ -38,7 +38,7 @@ const DialogContent = ({
       created_at: new Date().toString(),
       updated_at: new Date().toString(),
     };
-    dispatch(addItem({ item: newItem }));
+    dispatch(addItem({ category: category, item: newItem }));
   };
   return (
     <form onSubmit={handleSubmit(onAddSubmit)}>
@@ -77,12 +77,6 @@ const DialogContent = ({
               {...field}
             />
           )}
-        />
-        <Controller
-          name="category"
-          control={control}
-          defaultValue={category}
-          render={({ field }) => <Input readOnly {...field} />}
         />
         <Controller
           name="due_date"

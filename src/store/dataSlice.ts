@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 declare global {
   interface TodoItemType {
     id: number;
-    category: string;
     title: string;
     desc: string;
     isDone: boolean;
@@ -53,18 +52,24 @@ const categoriesSlice = createSlice({
       );
       localStorage.setItem("data", JSON.stringify(state));
     },
-    addItem: (state, action: { payload: { item: TodoItemType } }) => {
+    addItem: (
+      state,
+      action: { payload: { category: string; item: TodoItemType } }
+    ) => {
       let targetCategory = state.find(
-        (c: CategoriesType) => c.name === action.payload.item.category
+        (c: CategoriesType) => c.name === action.payload.category
       );
       if (targetCategory !== undefined) {
         targetCategory.items.push(action.payload.item);
         localStorage.setItem("data", JSON.stringify(state));
       }
     },
-    editItem: (state, action: { payload: { item: TodoItemType } }) => {
+    editItem: (
+      state,
+      action: { payload: { category: string; item: TodoItemType } }
+    ) => {
       let targetCategory = state.find(
-        (c: CategoriesType) => c.name === action.payload.item.category
+        (c: CategoriesType) => c.name === action.payload.category
       );
       if (targetCategory !== undefined) {
         const itemIndex = targetCategory.items.findIndex(
