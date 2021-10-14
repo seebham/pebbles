@@ -11,7 +11,11 @@ const CategoryContainer = () => {
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
-    if (result.destination.index === result.source.index) return;
+    if (
+      result.destination.droppableId === result.source.droppableId &&
+      result.destination.index === result.source.index
+    )
+      return;
     let category = data.findIndex(
       (c: CategoriesType) => c.name === result.source.droppableId
     );
