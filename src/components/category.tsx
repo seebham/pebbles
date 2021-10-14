@@ -43,7 +43,7 @@ const Category = ({ name, items }: CategoriesType) => {
 
   return (
     <CategoryContainer>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Typography
           variant="h6"
           component={"h6"}
@@ -56,17 +56,11 @@ const Category = ({ name, items }: CategoriesType) => {
           <IconButton onClick={() => setTriggerTodoModel(true)}>
             <AddIcon sx={{}} />
           </IconButton>
-          <IconButton>
-            <EditIcon
-              sx={{ fontSize: 20 }}
-              onClick={() => setTriggerModel(true)}
-            />
+          <IconButton onClick={() => setTriggerModel(true)}>
+            <EditIcon sx={{ fontSize: 20 }} />
           </IconButton>
-          <IconButton>
-            <DeleteIcon
-              sx={{ fontSize: 20 }}
-              onClick={() => dispatch(removeCategory({ name: name }))}
-            />
+          <IconButton onClick={() => dispatch(removeCategory({ name: name }))}>
+            <DeleteIcon sx={{ fontSize: 20 }} />
           </IconButton>
           <AddEditTDialog
             type="add"
