@@ -11,7 +11,7 @@ const CategoryContainer = () => {
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
-    if (result.destination.droppableId === result.source.droppableId) return;
+    if (result.destination.index === result.source.index) return;
     let category = data.findIndex(
       (c: CategoriesType) => c.name === result.source.droppableId
     );
@@ -24,7 +24,11 @@ const CategoryContainer = () => {
         })
       );
       dispatch(
-        addItem({ category: result.destination.droppableId, item: ToDoItem })
+        addItem({
+          category: result.destination.droppableId,
+          item: ToDoItem,
+          atIndex: result.destination.index,
+        })
       );
     }
   };

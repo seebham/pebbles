@@ -54,13 +54,23 @@ const categoriesSlice = createSlice({
     },
     addItem: (
       state,
-      action: { payload: { category: string; item: TodoItemType } }
+      action: {
+        payload: { category: string; item: TodoItemType; atIndex?: number };
+      }
     ) => {
       let targetCategory = state.find(
         (c: CategoriesType) => c.name === action.payload.category
       );
       if (targetCategory !== undefined) {
-        targetCategory.items.push(action.payload.item);
+        if (action.payload.atIndex !== undefined) {
+          targetCategory.items.splice(
+            action.payload.atIndex,
+            0,
+            action.payload.item
+          );
+        } else {
+          targetCategory.items.push(action.payload.item);
+        }
         localStorage.setItem("data", JSON.stringify(state));
       }
     },
