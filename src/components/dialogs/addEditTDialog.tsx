@@ -44,11 +44,16 @@ const DialogContent = ({
     handleClose();
   };
   const onEditSubmit: SubmitHandler<IFormInput> = (data) => {
-    dispatch(editItem({ category: category, item: data }));
+    let newItem: TodoItemType = {
+      ...item,
+      ...data,
+      updated_at: new Date().toString(),
+    };
+    dispatch(editItem({ category: category, item: newItem }));
     handleClose();
   };
   return (
-    <form onSubmit={handleSubmit(onAddSubmit)}>
+    <form onSubmit={handleSubmit(type === "edit" ? onEditSubmit : onAddSubmit)}>
       <Stack
         direction="column"
         justifyContent="flex-start"
