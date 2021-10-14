@@ -12,6 +12,8 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TodoItem from "./TodoItem";
+import { useState } from "react";
+import AddCDialog from "./dialogs/addCDialog";
 
 const CategoryContainer = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -65,11 +67,18 @@ const Category = ({ name, items }: CategoriesType) => {
 };
 
 export const PsuedoCategory = () => {
+  const [triggerModel, setTriggerModel] = useState<boolean>(false);
+  const handleClose = () => {
+    setTriggerModel(false);
+  };
   return (
     <CategoryContainer
       sx={{ border: "1px dashed", "&:hover": { border: "1px dashed" } }}
     >
-      <Button color="inherit">Add Category</Button>
+      <Button color="inherit" onClick={() => setTriggerModel(true)}>
+        Add Category
+      </Button>
+      <AddCDialog open={triggerModel} handleClose={handleClose} />
     </CategoryContainer>
   );
 };
