@@ -1,45 +1,32 @@
-import { Box, Stack, Paper, Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Stack, Button, Grid } from "@mui/material";
 import { addItem, changeIsDone } from "../store/dataSlice";
 import { useAppDispatch, useAppSelector } from "../store/store";
+import Category, { PsuedoCategory } from "./category";
 
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
-const MainContent = () => {
+const CategoryContainer = () => {
   const data = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
   console.log(data);
   return (
     <Box sx={{ flex: 1 }}>
-      <Stack
+      <Grid
+        container
         direction={{ xs: "column", sm: "row" }}
         spacing={{ xs: 1, sm: 2, md: 4 }}
         justifyContent="center"
-        alignItems="center"
       >
         {data &&
           data.map((category: CategoriesType) => {
             return (
-              <Item key={category.name}>
-                <Box
-                  sx={{
-                    fontWeight: "bold",
-                    textTransform: "uppercase",
-                    fontSize: "sm",
-                  }}
-                >
-                  {category.name}
-                </Box>
-                {/* <Box sx={{ fontSize: "sm" }}>{category.description}</Box> */}
-              </Item>
+              <Grid item xs={3}>
+                <Category key={category.name} {...category} />
+              </Grid>
             );
           })}
-      </Stack>
+        <Grid item xs={3}>
+          <PsuedoCategory />
+        </Grid>
+      </Grid>
       <Button
         onClick={() =>
           dispatch(
@@ -64,4 +51,4 @@ const MainContent = () => {
   );
 };
 
-export default MainContent;
+export default CategoryContainer;
