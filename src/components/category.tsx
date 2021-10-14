@@ -17,6 +17,7 @@ import AddEditCDialog from "./dialogs/addEditCDialog";
 import { useAppDispatch } from "../store/store";
 import { removeCategory } from "../store/dataSlice";
 import AddEditTDialog from "./dialogs/addEditTDialog";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
 const CategoryContainer = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -83,10 +84,33 @@ const Category = ({ name, items }: CategoriesType) => {
         alignItems="center"
         m={1}
       >
-        {items &&
-          items.map((item: TodoItemType) => {
-            return <TodoItem key={item.id} item={item} category={name} />;
-          })}
+        <Droppable droppableId={name}>
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {items &&
+                items.map((item: TodoItemType, index: number) => {
+                  return (
+                    <Draggable
+                      draggableId={item.id.toString()}
+                      index={index}
+                      key={item.id}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <TodoItem item={item} category={name} />
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </Stack>
     </CategoryContainer>
   );
