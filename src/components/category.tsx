@@ -16,6 +16,7 @@ import { useState } from "react";
 import AddEditCDialog from "./dialogs/addEditCDialog";
 import { useAppDispatch } from "../store/store";
 import { removeCategory } from "../store/dataSlice";
+import AddEditTDialog from "./dialogs/addEditTDialog";
 
 const CategoryContainer = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -30,11 +31,16 @@ const CategoryContainer = styled(Paper)(({ theme }) => ({
 
 const Category = ({ name, items }: CategoriesType) => {
   const [triggerModel, setTriggerModel] = useState<boolean>(false);
+  const [triggerTodoModel, setTriggerTodoModel] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
     setTriggerModel(false);
   };
+  const handleTodoModelClose = () => {
+    setTriggerTodoModel(false);
+  };
+
   return (
     <CategoryContainer>
       <Box sx={{ display: "flex" }}>
@@ -47,7 +53,7 @@ const Category = ({ name, items }: CategoriesType) => {
           {name}
         </Typography>
         <Stack spacing={1} direction={"row"}>
-          <IconButton>
+          <IconButton onClick={() => setTriggerTodoModel(true)}>
             <AddIcon sx={{}} />
           </IconButton>
           <IconButton>
@@ -62,6 +68,12 @@ const Category = ({ name, items }: CategoriesType) => {
               onClick={() => dispatch(removeCategory({ name: name }))}
             />
           </IconButton>
+          <AddEditTDialog
+            type="add"
+            category={name}
+            open={triggerTodoModel}
+            handleClose={handleTodoModelClose}
+          />
           <AddEditCDialog
             type="edit"
             open={triggerModel}

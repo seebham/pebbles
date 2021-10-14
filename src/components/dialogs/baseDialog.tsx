@@ -56,6 +56,10 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
   );
 };
 
+const DefaultAction = ({ handleClose }: { handleClose: () => void }) => {
+  return <Button onClick={handleClose}>Cancel</Button>;
+};
+
 const BaseDialog = ({
   open,
   handleClose,
@@ -77,7 +81,13 @@ const BaseDialog = ({
           {title}
         </BootstrapDialogTitle>
         <DialogContent dividers>{dialogContent}</DialogContent>
-        <DialogActions>{dialogActions}</DialogActions>
+        <DialogActions>
+          {dialogActions ? (
+            dialogActions
+          ) : (
+            <DefaultAction handleClose={handleClose} />
+          )}
+        </DialogActions>
       </BootstrapDialog>
     </div>
   );
