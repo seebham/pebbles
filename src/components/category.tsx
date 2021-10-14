@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TodoItem from "./TodoItem";
 import { useState } from "react";
-import AddCDialog from "./dialogs/addCDialog";
+import AddEditCDialog from "./dialogs/addEditCDialog";
 
 const CategoryContainer = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -27,6 +27,10 @@ const CategoryContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const Category = ({ name, items }: CategoriesType) => {
+  const [triggerModel, setTriggerModel] = useState<boolean>(false);
+  const handleClose = () => {
+    setTriggerModel(false);
+  };
   return (
     <CategoryContainer>
       <Box sx={{ display: "flex" }}>
@@ -43,11 +47,20 @@ const Category = ({ name, items }: CategoriesType) => {
             <AddIcon sx={{}} />
           </IconButton>
           <IconButton>
-            <EditIcon sx={{ fontSize: 20 }} />
+            <EditIcon
+              sx={{ fontSize: 20 }}
+              onClick={() => setTriggerModel(true)}
+            />
           </IconButton>
           <IconButton>
             <DeleteIcon sx={{ fontSize: 20 }} />
           </IconButton>
+          <AddEditCDialog
+            type="edit"
+            open={triggerModel}
+            handleClose={handleClose}
+            categoryID={name}
+          />
         </Stack>
       </Box>
       <Stack
@@ -78,7 +91,11 @@ export const PsuedoCategory = () => {
       <Button color="inherit" onClick={() => setTriggerModel(true)}>
         Add Category
       </Button>
-      <AddCDialog open={triggerModel} handleClose={handleClose} />
+      <AddEditCDialog
+        type="add"
+        open={triggerModel}
+        handleClose={handleClose}
+      />
     </CategoryContainer>
   );
 };
