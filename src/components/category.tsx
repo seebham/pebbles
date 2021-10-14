@@ -14,6 +14,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import TodoItem from "./TodoItem";
 import { useState } from "react";
 import AddEditCDialog from "./dialogs/addEditCDialog";
+import { useAppDispatch } from "../store/store";
+import { removeCategory } from "../store/dataSlice";
 
 const CategoryContainer = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -28,6 +30,8 @@ const CategoryContainer = styled(Paper)(({ theme }) => ({
 
 const Category = ({ name, items }: CategoriesType) => {
   const [triggerModel, setTriggerModel] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+
   const handleClose = () => {
     setTriggerModel(false);
   };
@@ -53,7 +57,10 @@ const Category = ({ name, items }: CategoriesType) => {
             />
           </IconButton>
           <IconButton>
-            <DeleteIcon sx={{ fontSize: 20 }} />
+            <DeleteIcon
+              sx={{ fontSize: 20 }}
+              onClick={() => dispatch(removeCategory({ name: name }))}
+            />
           </IconButton>
           <AddEditCDialog
             type="edit"
