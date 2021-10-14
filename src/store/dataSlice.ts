@@ -18,7 +18,7 @@ declare global {
   }
 }
 
-var categoriesFromLocalStorage = localStorage.getItem("categories");
+var categoriesFromLocalStorage = localStorage.getItem("data");
 const initialState: CategoriesType[] =
   categoriesFromLocalStorage !== null
     ? JSON.parse(categoriesFromLocalStorage)
@@ -106,6 +106,7 @@ const categoriesSlice = createSlice({
   reducers: {
     addCategory: (state, action: { payload: { name: string } }) => {
       state.push({ name: action.payload.name, items: [] });
+      localStorage.setItem("data", JSON.stringify(state));
     },
     editCategory: (
       state,
@@ -114,7 +115,10 @@ const categoriesSlice = createSlice({
       const category = state.find(
         (category: CategoriesType) => category.name === action.payload.name
       );
-      if (category) category.name = action.payload.newName;
+      if (category) {
+        category.name = action.payload.newName;
+        localStorage.setItem("data", JSON.stringify(state));
+      }
     },
     removeCategory: (state, action: { payload: { name: string } }) => {
       state.splice(
@@ -123,6 +127,7 @@ const categoriesSlice = createSlice({
         ),
         1
       );
+      localStorage.setItem("data", JSON.stringify(state));
     },
     addItem: (state, action: { payload: { item: TodoItemType } }) => {
       let targetCategory = state.find(
@@ -130,6 +135,7 @@ const categoriesSlice = createSlice({
       );
       if (targetCategory !== undefined) {
         targetCategory.items.push(action.payload.item);
+        localStorage.setItem("data", JSON.stringify(state));
       }
     },
     editItem: (state, action: { payload: { item: TodoItemType } }) => {
@@ -144,6 +150,7 @@ const categoriesSlice = createSlice({
           ...action.payload.item,
           updated_at: new Date().toString(),
         };
+        localStorage.setItem("data", JSON.stringify(state));
       }
     },
     changeIsDone: (
@@ -159,6 +166,7 @@ const categoriesSlice = createSlice({
         );
         targetCategory.items[itemIndex].isDone =
           !targetCategory.items[itemIndex].isDone;
+        localStorage.setItem("data", JSON.stringify(state));
       }
     },
     removeItem: (
@@ -175,6 +183,7 @@ const categoriesSlice = createSlice({
           ),
           1
         );
+        localStorage.setItem("data", JSON.stringify(state));
       }
     },
   },
