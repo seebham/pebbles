@@ -1,8 +1,8 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Button } from "@mui/material";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import Category, { PsuedoCategory } from "./category";
-import { addItem, removeItem } from "../store/dataSlice";
+import { addItem, removeItem, addDummyData } from "../store/dataSlice";
 
 const CategoryContainer = () => {
   const dispatch = useAppDispatch();
@@ -55,6 +55,11 @@ const CategoryContainer = () => {
           </Grid>
         </Grid>
       </DragDropContext>
+      <Box>
+        <Button onClick={() => dispatch(addDummyData())}>
+          ..or try with Dummy Data
+        </Button>
+      </Box>
     </Box>
   );
 };

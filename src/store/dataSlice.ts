@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import dummyData from "./dummyData";
 
 declare global {
   interface TodoItemType {
@@ -125,6 +126,9 @@ const categoriesSlice = createSlice({
         localStorage.setItem("data", JSON.stringify(state));
       }
     },
+    addDummyData: (state) => {
+      return (state = dummyData);
+    },
   },
 });
 
@@ -136,5 +140,6 @@ export const {
   editItem,
   changeIsDone,
   removeItem,
+  addDummyData,
 } = categoriesSlice.actions;
 export default categoriesSlice.reducer;
