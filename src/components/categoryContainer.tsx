@@ -44,7 +44,8 @@ const CategoryContainer = () => {
         <Grid
           container
           direction={{ xs: "column", sm: "row" }}
-          spacing={{ xs: 1, sm: 2, md: 4 }}
+          spacing={{ xs: 2, sm: 2, md: 4 }}
+          alignItems={{ xs: "center", sm: "flex-start" }}
         >
           {data &&
             data.map((category: CategoriesType) => {
