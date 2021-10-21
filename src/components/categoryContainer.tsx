@@ -58,6 +58,7 @@ const CategoryContainer = () => {
                   lg={3}
                   key={category.name}
                   zeroMinWidth
+                  minWidth={{ xs: "100%", sm: 0 }}
                 >
                   <Category {...category} />
                 </Grid>
