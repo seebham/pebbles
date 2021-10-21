@@ -10,8 +10,13 @@ const CategoryContainer = () => {
   console.log(data);
 
   const handleDragEnd = (result: DropResult) => {
+    console.log(result);
     if (!result.destination) return;
-    if (result.destination.index === result.source.index) return;
+    if (
+      result.destination.droppableId === result.source.droppableId &&
+      result.destination.index === result.source.index
+    )
+      return;
     let category = data.findIndex(
       (c: CategoriesType) => c.name === result.source.droppableId
     );
@@ -40,12 +45,19 @@ const CategoryContainer = () => {
           container
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
-          justifyContent="center"
         >
           {data &&
             data.map((category: CategoriesType) => {
               return (
-                <Grid item xs={3} key={category.name}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={category.name}
+                  zeroMinWidth
+                >
                   <Category {...category} />
                 </Grid>
               );

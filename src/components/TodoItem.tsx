@@ -3,7 +3,7 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import styled from "@mui/material/styles/styled";
-import { IconButton, Typography } from "@mui/material";
+import { Icon, IconButton, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
@@ -14,9 +14,8 @@ import { removeItem } from "../store/dataSlice";
 
 const ItemContainer = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
+  marginTop: theme.spacing(1),
   padding: theme.spacing(2),
-  paddingTop: theme.spacing(1),
-  width: "100%",
   backgroundColor: theme.palette.background.paper,
   border: `1px solid ${theme.palette.action.focus}`,
   transition: "border 0.3s ease-in",
@@ -47,37 +46,31 @@ const TodoItem = ({
   return (
     <ItemContainer
       key={item.id}
-      sx={{ display: "flex", flexDirection: "column" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       <Box
         sx={{
           display: "flex",
           flexDirection: "row",
-          alignItems: "center",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
           mb: 2,
         }}
       >
-        <Typography
+        <CustomTypography
           sx={{
             flexGrow: 1,
             fontWeight: "bold",
             cursor: "pointer",
-            textAlign: "left",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
           }}
-          noWrap
           onClick={() => setExpanded(!expanded)}
         >
           {item.title}
-        </Typography>
-        <Stack
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          spacing={1}
-        >
+        </CustomTypography>
+        <Stack direction="row" justifyContent="flex-end" alignItems="center">
           <IconButton onClick={() => setTriggerModel(true)}>
             <EditIcon fontSize="small" />
           </IconButton>

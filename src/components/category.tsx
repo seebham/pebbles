@@ -21,6 +21,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 
 const CategoryContainer = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
+  maxWidth: theme.spacing(40),
   backgroundColor: theme.palette.primary.contrastText,
   border: `1px solid ${theme.palette.primary.dark}`,
   padding: theme.spacing(2),
@@ -44,7 +45,7 @@ const Category = ({ name, items }: CategoriesType) => {
 
   return (
     <CategoryContainer>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         <Typography
           variant="h6"
           component={"h6"}
@@ -82,11 +83,14 @@ const Category = ({ name, items }: CategoriesType) => {
         spacing={{ xs: 1, sm: 2, md: 4 }}
         justifyContent="center"
         alignItems="center"
-        m={1}
       >
         <Droppable droppableId={name}>
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+            <div
+              style={{ width: "100%" }}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
               {items &&
                 items.map((item: TodoItemType, index: number) => {
                   return (
