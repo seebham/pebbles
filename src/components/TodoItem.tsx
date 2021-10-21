@@ -65,6 +65,8 @@ const TodoItem = ({
             flexGrow: 1,
             fontWeight: "bold",
             cursor: "pointer",
+            width: "60%",
+            overflowX: "hidden",
           }}
           onClick={() => setExpanded(!expanded)}
         >
