@@ -100,7 +100,7 @@ const TodoItem = ({
             <CustomTypography>
               Last Update: {new Date(item.updated_at).toDateString()}
             </CustomTypography>
-            <CustomTypography>
+            <CustomTypography mt={1}>
               Due Date:{" "}
               <span style={{ textDecoration: "underline" }}>
                 {new Date(item.due_date).toDateString()}
